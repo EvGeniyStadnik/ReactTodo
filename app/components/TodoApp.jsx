@@ -1,5 +1,6 @@
 const React = require('react');
 const TodoList = require('TodoList');
+const AddTodo = require('AddTodo');
 
 class TodoApp extends React.Component{
     constructor(props){
@@ -24,12 +25,24 @@ class TodoApp extends React.Component{
         }
     }
 
+    handleAddTodo = (text) => {
+        const arrTodos = this.state.todos;
+        arrTodos.push({
+            id: arrTodos.length + 1,
+            text: text
+        });
+        this.setState({
+            todos: arrTodos
+        });
+    };
+
     render(){
         const {todos} = this.state;
 
         return(
             <div>
                 <TodoList todos={todos}/>
+                <AddTodo onAddTodo={this.handleAddTodo}/>
             </div>
         )
     }
