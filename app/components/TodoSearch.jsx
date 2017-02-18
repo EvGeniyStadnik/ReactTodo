@@ -1,6 +1,6 @@
 const React = require('react');
 
-class AddTodo extends React.Component{
+class TodoSearch extends React.Component{
     constructor(props){
         super(props);
     }
@@ -8,7 +8,7 @@ class AddTodo extends React.Component{
     handleSearch = () => {
         let showCompleted = this.refs.showCompleted.checked;
         let searchText = this.refs.searchText.value;
-
+        console.log(showCompleted, searchText);
         this.props.onSearch(showCompleted, searchText);
     };
 
@@ -29,7 +29,7 @@ class AddTodo extends React.Component{
     }
 }
 
-module.exports = AddTodo;
+module.exports = TodoSearch;
 
 
 
