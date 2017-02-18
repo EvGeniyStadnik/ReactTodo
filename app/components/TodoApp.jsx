@@ -2,6 +2,7 @@ const React = require('react');
 const TodoList = require('TodoList');
 const AddTodo = require('AddTodo');
 const TodoSearch = require('TodoSearch');
+const uuid = require('node-uuid');
 
 class TodoApp extends React.Component{
     constructor(props){
@@ -12,16 +13,16 @@ class TodoApp extends React.Component{
             searchText: '',
             todos: [
                 {
-                    id: 1,
+                    id: uuid(),
                     text: 'Walk the dog'
                 }, {
-                    id: 2,
+                    id: uuid(),
                     text: 'Clean the yard'
                 }, {
-                    id: 3,
+                    id: uuid(),
                     text: 'Leave mail on porch'
                 }, {
-                    id: 4,
+                    id: uuid(),
                     text: 'Play video games'
                 }
             ]
@@ -29,13 +30,14 @@ class TodoApp extends React.Component{
     }
 
     handleAddTodo = (text) => {
-        const arrTodos = this.state.todos;
-        arrTodos.push({
-            id: arrTodos.length + 1,
-            text: text
-        });
         this.setState({
-            todos: arrTodos
+            todos: [
+                ...this.state.todos,
+                {
+                    id: uuid(),
+                    text: text
+                }
+            ]
         });
     };
 
