@@ -13,15 +13,15 @@ class TodoSearch extends React.Component{
 
     render(){
         return(
-            <div>
+            <div className="container__header">
                 <div>
                     <input type="text" ref="searchText" placeholder="Search todos" onChange={this.handleSearch}/>
                 </div>
                 <div>
-                    <lable>
+                    <label>
                         <input type="checkbox" ref="showCompleted" onChange={this.handleSearch}/>
                         Show Completed
-                    </lable>
+                    </label>
                 </div>
             </div>
         )
