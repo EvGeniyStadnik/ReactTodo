@@ -1,3 +1,6 @@
+const uuid = require('node-uuid');
+const moment = require('moment');
+
 export let searchTextReducer = (state = '', action) => {
     switch (action.type){
         case 'SET_SEARCH_TEXT':
@@ -14,3 +17,32 @@ export let showCompletedReducer  = (state = false, action) => {
             return state;
     }
 };
+export let addTodoReducer = (state = [], action) => {
+    switch (action.type){
+        case "ADD_TODO":
+            return [
+                ...state,
+                {
+                    id: uuid(),
+                    text: action.text,
+                    completed: false,
+                    createdAt: moment().unix(),
+                    completedAt: undefined
+                }
+            ];
+        case 'TOGGLE_TODO':
+            return state.map((todo) => {
+                if(todo.id === action.id){
+                    let newCompleted = !todo.completed;
+                    return { // we have to create new object ot return (pure function!)
+                        ...todo,
+                        completed: newCompleted,
+                        completedAt: newCompleted ? moment().unix() : undefined
+                    }
+                }
+            });
+        default:
+            return state;
+    }
+};
+
