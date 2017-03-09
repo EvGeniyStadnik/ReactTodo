@@ -1,7 +1,8 @@
 const React = require('react');
-const Todo = require('Todo');
+const {connect} = require('react-redux');
+import Todo from 'Todo';
 
-class TodoList extends React.Component{
+export class TodoList extends React.Component{
 
     render() {
         const {todos} = this.props;
@@ -10,7 +11,7 @@ class TodoList extends React.Component{
             if(todos.length){
                 return todos.map((todo) => {
                     return (
-                        <Todo key={todo.id} {...todo} onToggle={this.props.onToggle}/>
+                        <Todo key={todo.id} {...todo} />
                     );
                 });
             } else {
@@ -25,4 +26,10 @@ class TodoList extends React.Component{
     }
 }
 
-module.exports = TodoList;
+export default connect(
+    (state) => {
+        return {
+            todos: state.todos
+        }
+    }
+)(TodoList);

@@ -39,6 +39,8 @@ export let addTodoReducer = (state = [], action) => {
                         completed: newCompleted,
                         completedAt: newCompleted ? moment().unix() : undefined
                     }
+                } else {
+                    return todo;
                 }
             });
         default:

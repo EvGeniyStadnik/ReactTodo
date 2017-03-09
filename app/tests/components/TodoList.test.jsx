@@ -1,10 +1,12 @@
 let React = require('react');
 let ReactDOM = require('react-dom');
+let {Provider} = require('react-redux');
 let expect = require('expect');
 let TestUtils = require('react-addons-test-utils');
 
-let TodoList = require('TodoList');
-let Todo = require('Todo');
+import {configure} from 'configureStore';
+import ConnectedTodoList, {TodoList} from 'TodoList';
+import ConnectedTodo, {Todo} from 'Todo';
 
 describe('TodList', () => {
     it('should exist', () => {
@@ -14,13 +16,28 @@ describe('TodList', () => {
     it('should render one Todo component for each toto item', () => {
         let todos = [{
             id: 1,
-            text: 'Do something'
+            text: 'Do something',
+            completed: false,
+            completedAt: undefined,
+            createdAt: 500
         }, {
             id: 2,
-            text: 'Check mail'
+            text: 'Check mail',
+            completed: false,
+            completedAt: undefined,
+            createdAt: 500
         }];
-        let todoList = TestUtils.renderIntoDocument(<TodoList todos={todos}/>);
-        let todoComponents = TestUtils.scryRenderedComponentsWithType(todoList, Todo);
+        //return store with initialState = todos;
+        let store = configure({
+            todos  //pass initialState to the createStore
+        });
+        let provider = TestUtils.renderIntoDocument(
+            <Provider store={store}>
+                <ConnectedTodoList/>
+            </Provider>
+        );
+        let todoList = TestUtils.findRenderedComponentWithType(provider, ConnectedTodoList);
+        let todoComponents = TestUtils.scryRenderedComponentsWithType(todoList, ConnectedTodo);
 
         expect(todoComponents.length).toBe(todos.length);
     });
