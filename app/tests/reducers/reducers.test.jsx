@@ -29,7 +29,7 @@ describe('Reducers', () => {
         });
     });
 
-    describe('addTodoReducer - ADD_TODO', () => {
+    describe('addTodoReducer - ADD_TODO, ADD_TODOS', () => {
         it('should add new Todo item in array', () => {
             let action = {
                 type: 'ADD_TODO',
@@ -39,6 +39,23 @@ describe('Reducers', () => {
 
             expect(res.length).toBe(1);
             expect(res[0].text).toBe('some text');
+        });
+        it('should add existing todos array', () => {
+            let todos = [{
+                id: 111,
+                text: 'anything',
+                completed: false,
+                completedAt: undefined,
+                createdAt: 33000
+            }];
+            let action = {
+                type: 'ADD_TODOS',
+                todos
+            };
+            let res = reducers.addTodoReducer(df([]), df(action));
+
+            expect(res.length).toBe(1);
+            expect(res[0]).toEqual(todos[0]);
         });
     });
 

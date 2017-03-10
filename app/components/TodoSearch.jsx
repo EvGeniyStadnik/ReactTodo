@@ -7,21 +7,6 @@ export class TodoSearch extends React.Component{
         super(props);
     }
 
-    // handleSearchToggle = () => {
-    //     let {dispatch} = this.props;
-    //     let showCompleted = this.refs.showCompleted.checked;
-    //
-    //     // this.props.onSearch(showCompleted, searchText);
-    //     dispatch(actions.toggleShowCompleted());
-    //
-    // };
-    // handleSearchText = () => {
-    //     let {dispatch} = this.props;
-    //     let searchText = this.refs.searchText.value;
-    //     console.log(searchText);
-    //     dispatch(actions.setSearchText(searchText));
-    // };
-
     render(){
         let {dispatch, showCompleted, searchText} = this.props;
         return(
