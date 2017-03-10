@@ -4,7 +4,7 @@ const moment = require('moment');
 
 import AddTodo from 'AddTodo';
 import TodoList from 'TodoList'
-const TodoSearch = require('TodoSearch');
+import TodoSearch from 'TodoSearch';
 const TodoAPI = require('TodoAPI');
 
 class TodoApp extends React.Component{
@@ -48,7 +48,7 @@ class TodoApp extends React.Component{
     render(){
         const {todos, showCompleted, searchText} = this.state;
         console.log(showCompleted, searchText);
-        const filteredTodos = TodoAPI.filterTodos(todos, showCompleted, searchText);
+
         return(
             <div>
 
@@ -57,7 +57,7 @@ class TodoApp extends React.Component{
                 <div className="row">
                     <div className="column small-centered medium-6 large-5">
                         <div className="container">
-                            <TodoSearch onSearch={this.handleSearch}/>
+                            <TodoSearch/>
                             <TodoList/>
                             <AddTodo onAddTodo={this.handleAddTodo}/>
                         </div>

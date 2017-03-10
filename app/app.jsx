@@ -13,9 +13,7 @@ store.subscribe(() => {
     let state = store.getState();
     console.log('currentState: ', state);
 });
-store.dispatch(actions.addTodo('New Todo item'));
-store.dispatch(actions.setSearchText('text'));
-store.dispatch(actions.toggleShowCompleted());
+// store.dispatch(actions.addTodo('New_item'));
 
 //Load foundation
 $(document).foundation();
