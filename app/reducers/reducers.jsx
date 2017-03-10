@@ -9,7 +9,7 @@ export let searchTextReducer = (state = '', action) => {
             return state;
     }
 };
-export let showCompletedReducer  = (state = true, action) => {
+export let showCompletedReducer  = (state = false, action) => {
     switch (action.type){
         case 'TOGGLE_SHOW_COMPLETED':
             return !state;
