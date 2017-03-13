@@ -6,6 +6,8 @@ const {Route, Router, IndexRoute, hashHistory} = require('react-router');
 const TodoApp = require('TodoApp');
 const TodoAPI = require('TodoAPI');
 
+// import './../examples/firebase/index';
+
 //Redux
 let actions = require('actions');
 let store = require('configureStore').configure();

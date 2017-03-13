@@ -33,12 +33,18 @@ describe('Reducers', () => {
         it('should add new Todo item in array', () => {
             let action = {
                 type: 'ADD_TODO',
-                text: 'some text'
+                todo: {
+                    id: 1234,
+                    text: 'text',
+                    completed: false,
+                    createdAt: moment().unix(),
+                    completedAt: null
+                }
             };
-            let res = reducers.addTodoReducer(df(''), df(action));
+            let res = reducers.addTodoReducer(df([]), df(action));
 
             expect(res.length).toBe(1);
-            expect(res[0].text).toBe('some text');
+            expect(res[0].text).toBe('text');
         });
         it('should add existing todos array', () => {
             let todos = [{

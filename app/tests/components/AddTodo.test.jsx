@@ -4,6 +4,7 @@ let expect = require('expect');
 let TestUtils = require('react-addons-test-utils');
 
 let {AddTodo} = require('AddTodo');
+import * as actions from 'actions';
 
 describe('AddTodo', () => {
     it('should exist', () => {
@@ -14,10 +15,8 @@ describe('AddTodo', () => {
         let spy = expect.createSpy();
 
         let todoText = 'Evgeniy';
-        let action = {
-            type: 'ADD_TODO',
-            text: todoText
-        };
+        let action = actions.startAddTodo(todoText);
+
         let addTodo = TestUtils.renderIntoDocument(<AddTodo dispatch={spy}/>);
         let el = ReactDOM.findDOMNode(addTodo);
 
