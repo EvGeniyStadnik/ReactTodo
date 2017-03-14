@@ -29,14 +29,12 @@ export let addTodoReducer = (state = [], action) => {
                 ...state,
                 ...action.todos
             ];
-        case 'TOGGLE_TODO':
+        case 'UPDATE_TODO':
             return state.map((todo) => {
                 if(todo.id === action.id){
-                    let newCompleted = !todo.completed;
                     return { // we have to create new object ot return (pure function!)
                         ...todo,
-                        completed: newCompleted,
-                        completedAt: newCompleted ? moment().unix() : undefined
+                        ...action.updates //this props override from ...todo
                     }
                 } else {
                     return todo;

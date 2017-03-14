@@ -65,12 +65,8 @@ describe('Reducers', () => {
         });
     });
 
-    describe('addTodoReducer - TOGGLE_TODO', () => {
+    describe('addTodoReducer - UPDATE_TODO', () => {
         it('should update array of Todos in completed(true/false) / completedAt(moment().unix()/undefined)', () => {
-            let action = {
-                type: 'TOGGLE_TODO',
-                id: 345
-            };
             let state = [
                 {
                     id: 234,
@@ -86,10 +82,20 @@ describe('Reducers', () => {
                     completedAt: undefined
                 }
             ];
+            let updates = {
+                completed: true,
+                completedAt: 1234
+            };
+            let action = {
+                type: 'UPDATE_TODO',
+                id: state[1].id, //345
+                updates
+            };
             let res = reducers.addTodoReducer(df(state), df(action));
 
-            expect(res[1].completed).toBe(true);
-            expect(res[1].completedAt).toBe(moment().unix());
+            expect(res[1].completed).toBe(updates.completed); //true
+            expect(res[1].completedAt).toBe(action.updates.completedAt); //1234
+            expect(res[1].text).toEqual(state[1].text);
         });
     });
 });

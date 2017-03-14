@@ -5,6 +5,7 @@ let TestUtils = require('react-addons-test-utils');
 
 // let {Todo} = require('Todo');
 import {Todo} from 'Todo';
+import * as actions from 'actions';
 
 describe('Todo', () => {
     it('should exist', () => {
@@ -20,15 +21,14 @@ describe('Todo', () => {
             text: 'Leave mail on porch',
             completed: true
         };
+        let action = actions.startToggleTodo(todoData.id, !todoData.completed);
+
         let todo = TestUtils.renderIntoDocument(<Todo {...todoData} dispatch={spy}/>);
 
         let el = ReactDOM.findDOMNode(todo);
         TestUtils.Simulate.click(el);
         //todo.toggleCheckbox();
 
-        expect(spy).toHaveBeenCalledWith({
-            type: 'TOGGLE_TODO',
-            id: 111
-        });
+        expect(spy).toHaveBeenCalledWith(action);
     });
 });
