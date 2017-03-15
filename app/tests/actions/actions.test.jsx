@@ -98,37 +98,64 @@ describe('Actions', () => {
         let testTodoRef;
 
         beforeEach((done) => {
-            testTodoRef = firebaseRef.child('todos').push();
+            let todosRef = firebaseRef.child('todos');
 
-            testTodoRef.set({
-                text: 'Something to do',
-                completed: false,
-                createdAt: 123412
-            }).then(() => done());
+            todosRef.remove().then(() => {
+                testTodoRef = firebaseRef.child('todos').push();
+
+                return testTodoRef.set({
+                    text: 'Something to do',
+                    completed: false,
+                    createdAt: 123412
+                });
+            })
+            .then(() => done())
+            .catch(done);
+
         });
 
         afterEach((done) => {
             testTodoRef.remove().then(() => done());
         });
 
-        it('should toggle todo and dispatch UPDATE_TODO actioin', (done) => {
+        it('should toggle todo and dispatch UPDATE_TODO action', (done) => {
             const store = createMockStore({});
             const action = actions.startToggleTodo(testTodoRef.key, true);
 
             store.dispatch(action).then(() => {
-                const mockActions = store.getActions();
+                const mockActionsToggleTodo = store.getActions();
 
-                expect(mockActions[0]).toInclude({
+                expect(mockActionsToggleTodo[0]).toInclude({
                     type: 'UPDATE_TODO',
                     id: testTodoRef.key
                 });
-                expect(mockActions[0].updates).toInclude({
+                expect(mockActionsToggleTodo[0].updates).toInclude({
                     completed: true
                 });
-                expect(mockActions[0].updates.completedAt).toExist();
+                expect(mockActionsToggleTodo[0].updates.completedAt).toExist();
 
-                done();
             }, done);
+            done();
+        });
+
+        it('should fetch todos from firebase convert to array and dispatch ADD_TODOS action', (done) => {
+            const store = createMockStore({});
+            const action = actions.startAddTodos();
+
+            store.dispatch(action).then(() => {
+                const mockActionsAddTodos = store.getActions();
+
+                expect(mockActionsAddTodos[0].type).toBe('ADD_TODOS');
+                expect(mockActionsAddTodos[0].todos.length).toEqual(1);
+                expect(mockActionsAddTodos[0].todos[0]).itInclude({
+                    text: 'Something to do',
+                    completed: true,
+                    createdAt: 123412
+                });
+                expect(mockActionsAddTodos[0].todos[0].completedAt).toExist();
+
+            }, done);
+            done();
         });
     });
 });
