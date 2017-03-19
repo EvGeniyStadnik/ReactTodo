@@ -5,7 +5,7 @@ let expect = require('expect');
 let TestUtils = require('react-addons-test-utils');
 
 let configureStore = require('configureStore');
-let TodoApp = require('TodoApp');
+import {TodoApp} from 'TodoApp';
 import TodoList from 'TodoList';
 
 describe('TodoApp', () => {
