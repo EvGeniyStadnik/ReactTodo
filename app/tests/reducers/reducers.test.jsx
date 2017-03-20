@@ -98,4 +98,30 @@ describe('Reducers', () => {
             expect(res[1].text).toEqual(state[1].text);
         });
     });
+
+    describe('authReducer', () => {
+        it('should add to state auth object.uid: firebase.auth().user.uid when user login', () => {
+            let action = {
+                type: 'LOGIN',
+                uid: '12345'
+            };
+            let state = {
+                uid: action.uid
+            };
+            let res = reducers.authReducer(undefined, df(action));
+
+            expect(res).toEqual(state);
+        });
+        it('should add to state auth empty Object: firebase.auth().user = null when user logout', () => {
+            let action = {
+                type: 'LOGOUT'
+            };
+            let state = {
+                uid: '12345'
+            };
+            let res = reducers.authReducer(df(state), df(action));
+
+            expect(res).toEqual({});
+        });
+    });
 });
