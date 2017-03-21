@@ -13,7 +13,8 @@ let store = require('configureStore').configure();
 firebase.auth().onAuthStateChanged((user) => {
     if (user) {
         hashHistory.push('/todos');
-        //get all todoItems from firebase and pass it to the store
+        store.dispatch(actions.login(user.uid));
+        //get all todoItems from firebase and pass it to the store - state
         //when we know that user Logged In we get only his todos
         store.dispatch(actions.startAddTodos());
         console.log('firebase.auth().user.uid (state auth:)', store.getState().auth);

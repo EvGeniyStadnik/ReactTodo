@@ -99,6 +99,32 @@ describe('Reducers', () => {
         });
     });
 
+    describe('addTodoReducer - REMOVE_TODOS', () => {
+        it('should remove all Todos and return empty array when logout', () => {
+            let state = [
+                {
+                    id: 234,
+                    text: 'someText1',
+                    completed: false,
+                    createdAt: 123,
+                    completedAt: undefined
+                },{
+                    id: 345,
+                    text: 'someText2',
+                    completed: false,
+                    createdAt: 456,
+                    completedAt: undefined
+                }
+            ];
+            let action = {
+                type: 'LOGOUT'
+            };
+            let res = reducers.addTodoReducer(df(state), df(action));
+
+            expect(res.length).toBe(0);
+        });
+    });
+
     describe('authReducer', () => {
         it('should add to state auth object.uid: firebase.auth().user.uid when user login', () => {
             let action = {
