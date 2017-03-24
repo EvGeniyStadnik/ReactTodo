@@ -47,10 +47,10 @@ describe('TodoAPI', () => {
             expect(filteredTodosArray[0].completed).toBe(false);
         });
 
-        it('should filter todos by searchText', () => {
+        it('should filter todos by searchText if searchText with uppercase letter', () => {
             showCompleted = true;
             searchText = 'Asdf';
-            let searchedTodos = TodoAPI.filterTodos(todos, showCompleted, searchText.toLowerCase());
+            let searchedTodos = TodoAPI.filterTodos(todos, showCompleted, searchText);
 
             expect(searchedTodos[0].text).toBe('asdf');
         });
@@ -58,7 +58,7 @@ describe('TodoAPI', () => {
         it('should return all todos if searchText is empty', () => {//---------
             showCompleted = true;
             searchText = '  ';
-            let searchedTodos = TodoAPI.filterTodos(todos, showCompleted, searchText.toLowerCase());
+            let searchedTodos = TodoAPI.filterTodos(todos, showCompleted, searchText);
 
             expect(searchedTodos.length).toBe(2);
         });//----------
