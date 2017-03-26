@@ -75,29 +75,36 @@ describe('Actions', () => {
     });
 
     describe('Tests with firebase todos', () => {
-        let testTodoRef;
-        let uid;
+        let uid = '1san34o3f8434nlwvn';
         let todosRef;
+        let todoRef;
 
         beforeEach((done) => {
-            var credential = firebase.auth.GithubAuthProvider.credential(process.env.GITHUB_ACCESS_TOKEN);
+            // var credential = firebase.auth.GithubAuthProvider.credential(process.env.GITHUB_ACCESS_TOKEN);
+            //
+            // firebase.auth().signInWithCredential(credential).then((user) => {
+            //     uid = user.uid;
+            //     todosRef = firebaseRef.child(`users/${uid}/todos`);
+            //
+            //     return todosRef.remove();
+            // }).then(() => {
+            //     todoRef = todosRef.push();
+            //
+            //     return todoRef.set({
+            //         text: 'Something to do',
+            //         completed: false,
+            //         createdAt: 23453453
+            //     })
+            // })
+            // .then(() => done())
+            // .catch(done);
 
-            firebase.auth().signInWithCredential(credential).then((user) => {
-                uid = user.uid;
-                todosRef = firebaseRef.child(`users/${uid}/todos`);
-
-                return todosRef.remove();
-            }, (e) => {console.log(e)}).then(() => {
-                testTodoRef = todosRef.push();
-
-                return testTodoRef.set({
-                    text: 'Something to do',
-                    completed: false,
-                    createdAt: 23453453
-                })
-            })
-            .then(() => done())
-            .catch(done);
+            todosRef = firebaseRef.child(`users/${uid}/todos`);
+            todoRef = todosRef.push({
+                text: 'Something to do',
+                completed: false,
+                createdAt: 23453453
+            }).then(() => done()).catch(done);
         });
 
         afterEach((done) => {
@@ -106,14 +113,14 @@ describe('Actions', () => {
 
         it('should toggle todo and dispatch UPDATE_TODO action', (done) => {
             const store = createMockStore({auth: {uid}});
-            const action = actions.startToggleTodo(testTodoRef.key, true);
+            const action = actions.startToggleTodo(todoRef.key, true); //completed - true/false; completedAt
 
             store.dispatch(action).then(() => {
                 const mockActionsToggleTodo = store.getActions();
 
                 expect(mockActionsToggleTodo[0]).toInclude({
                     type: 'UPDATE_TODO',
-                    id: testTodoRef.key
+                    id: todoRef.key
                 });
                 expect(mockActionsToggleTodo[0].updates).toInclude({
                     completed: true
@@ -133,10 +140,10 @@ describe('Actions', () => {
 
                 expect(mockActionsAddTodos[0].type).toBe('ADD_TODOS');
                 expect(mockActionsAddTodos[0].todos.length).toEqual(1);
-                expect(mockActionsAddTodos[0].todos[0]).itInclude({
+                expect(mockActionsAddTodos[0].todos[0]).toInclude({
                     text: 'Something to do',
                     completed: true,
-                    createdAt: 123412
+                    createdAt: 23453453
                 });
                 expect(mockActionsAddTodos[0].todos[0].completedAt).toExist();
 
@@ -156,12 +163,22 @@ describe('Actions', () => {
                 expect(actions[0].todo).toInclude({
                     text: todoText
                 });
-                //remove created, during test, todo item
-                let id = actions[0].todo.id;
-                firebaseRef.child(`todos/${id}`).remove();
 
                 done();
             }).catch(done);
+        });
+
+        it('should remove todo item by startRemoveTodo()-thunk', (done) => {
+            const store = createMockStore({auth: {uid}});
+            const action = actions.startRemoveTodo(todoRef.key);
+
+            store.dispatch(action).then(() => {
+                const mockActionsRemoveTodo = store.getActions();
+
+                expect(mockActionsRemoveTodo[0].type).toBe('REMOVE_TODO');
+                expect(mockActionsRemoveTodo[0].id).toBe(todoRef.key);
+            }).catch(done);
+            done();
         });
     });
 

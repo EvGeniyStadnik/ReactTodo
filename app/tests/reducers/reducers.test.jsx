@@ -99,7 +99,7 @@ describe('Reducers', () => {
         });
     });
 
-    describe('addTodoReducer - REMOVE_TODOS', () => {
+    describe('addTodoReducer - LOGOUT - remove all todos array from memory', () => {
         it('should remove all Todos and return empty array when logout', () => {
             let state = [
                 {
@@ -122,6 +122,34 @@ describe('Reducers', () => {
             let res = reducers.addTodoReducer(df(state), df(action));
 
             expect(res.length).toBe(0);
+        });
+    });
+
+    describe('addTodoReducer - REMOVE_TODO - remove todo from db', () => {
+        it('should remove one item todo (founded by id) and return array without that todo', () => {
+            let state = [
+                {
+                    id: 234,
+                    text: 'someText1',
+                    completed: false,
+                    createdAt: 123,
+                    completedAt: undefined
+                },{
+                    id: 345,
+                    text: 'someText2',
+                    completed: false,
+                    createdAt: 456,
+                    completedAt: undefined
+                }
+            ];
+            let action = {
+                type: 'REMOVE_TODO',
+                id: state[0].id //234
+            };
+
+            let res = reducers.addTodoReducer(df(state), df(action));
+            expect(res.length).toBe(1);
+            expect(res[0].id).toBe(345);
         });
     });
 

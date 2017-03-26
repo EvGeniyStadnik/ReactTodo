@@ -6,6 +6,12 @@ let actions = require('actions');
 
 //this export used only for test file: let {Todo} = require('Todo');
 export class Todo extends React.Component{
+    onRemoveTodo = (e) => {
+        e.stopPropagation();
+        const {id, dispatch} = this.props;
+
+        dispatch(actions.startRemoveTodo(id));
+    };
     render(){
         const {text, id, completed, createdAt, completedAt, dispatch} = this.props;
 
@@ -23,10 +29,11 @@ export class Todo extends React.Component{
                 <div>
                     <input type="checkbox" checked={completed}/>
                 </div>
-                <div>
+                <div className="todo_text">
                     <p>{text}</p>
                     <p className="todo__subtext">{renderDate()}</p>
                 </div>
+                <button onClick={this.onRemoveTodo} className="button todo_button__close">X</button>
             </div>
         )
     }

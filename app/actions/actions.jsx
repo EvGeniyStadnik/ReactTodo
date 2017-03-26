@@ -93,6 +93,26 @@ export let startToggleTodo = (id, completed) => {
     };
 };
 
+export let removeTodo = (id) => {
+    return {
+        type: 'REMOVE_TODO',
+        id
+    }
+};
+//Todo.jsx
+export let startRemoveTodo = (id) => {
+    return (dispatch, getState) => {
+        let uid = getState().auth.uid;
+        let todoRef = firebaseRef.child(`users/${uid}/todos/${id}`);
+
+        return todoRef.remove().then(() => {
+            dispatch(removeTodo(id))
+        }).catch((e) => {
+            console.log(e.message);
+        });
+    }
+};
+
 export let login = (uid) => {
     return {
         type: 'LOGIN',

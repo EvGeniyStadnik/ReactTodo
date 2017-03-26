@@ -40,6 +40,10 @@ export let addTodoReducer = (state = [], action) => {
                     return todo;
                 }
             });
+        case 'REMOVE_TODO':
+                return state.filter((todo) => {
+                    return todo.id !== action.id
+                });
         case 'LOGOUT':
             return [];
         default:
